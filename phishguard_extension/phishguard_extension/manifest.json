@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "PhishGuard",
+  "version": "1.0.0",
+  "description": "Clean UI prototype for NLP phishing email detection.",
+  "permissions": ["activeTab"],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}

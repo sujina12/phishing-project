@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhishGuard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div class="brand-icon">◆</div>
+      <div>
+        <h1>PhishGuard</h1>
+        <p>Email Threat Detection</p>
+      </div>
+    </header>
+
+    <section class="email-card">
+      <span class="eyebrow">CURRENT EMAIL</span>
+      <h2>Urgent: Verify your account</h2>
+      <p class="sender">security@verify-login.com</p>
+    </section>
+
+    <button id="analyseBtn" class="primary">Analyse Email</button>
+
+    <section id="result" class="result hidden">
+      <div class="status-row">
+        <div id="statusIcon" class="status-icon">!</div>
+        <div>
+          <span id="risk" class="risk">HIGH RISK</span>
+          <h2 id="verdict">Likely Phishing</h2>
+        </div>
+      </div>
+
+      <div class="score-row">
+        <span>Phishing probability</span>
+        <strong id="score">94%</strong>
+      </div>
+      <div class="track"><div id="bar" class="bar"></div></div>
+
+      <div class="divider"></div>
+
+      <h3>Why it was flagged</h3>
+      <ul id="reasons">
+        <li>Urgent or threatening language</li>
+        <li>Credential request detected</li>
+        <li>Suspicious call-to-action</li>
+      </ul>
+
+      <div class="advice">
+        <strong>Recommended action</strong>
+        <p>Do not click links or enter credentials until you verify the sender.</p>
+      </div>
+
+      <button id="resetBtn" class="secondary">Analyse Again</button>
+    </section>
+
+    <footer>Prototype • NLP-powered email analysis</footer>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

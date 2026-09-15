@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phishing Email Detection</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      width: 390px;
+      margin: 0;
+      color: #18243a;
+      background: #f5f7fb;
+    }
+
+    header {
+      padding: 22px 24px 19px;
+      background: #102547;
+      color: white;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      color: #102547;
+      /* background: #9be6d0; */
+      background: ffff
+      ;
+      font-weight: 900;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: #c5d3e8;
+      font-size: 12px;
+    }
+
+    main { padding: 20px 20px 18px; }
+
+    .card {
+      padding: 17px;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 3px 12px #1025470a;
+    }
+
+    .card + .card { margin-top: 14px; }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: 5px; font-size: 17px; }
+    h2 { margin-bottom: 10px; font-size: 14px; }
+
+    .helper {
+      color: #617085;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .row { display: flex; gap: 9px; }
+
+    button {
+      min-height: 38px;
+      padding: 0 13px;
+      border: 0;
+      border-radius: 9px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:focus-visible, textarea:focus-visible {
+      outline: 2px solid #335fe0;
+      outline-offset: 2px;
+    }
+
+    button:disabled { opacity: .6; cursor: wait; }
+    .secondary { background: #eaf0f8; color: #203b65; }
+    .primary { flex: 1; color: white; background: #2458da; }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 112px;
+      max-height: 240px;
+      padding: 11px;
+      resize: vertical;
+      border: 1px solid #cdd7e5;
+      border-radius: 9px;
+      color: #18243a;
+      font: inherit;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .status {
+      min-height: 18px;
+      margin: 11px 0 0;
+      font-size: 12px;
+      line-height: 1.4;
+      color: #50607a;
+    }
+
+    .status.error { color: #aa3138; }
+    .status.success { color: #167056; }
+    #result[hidden] { display: none; }
+
+    .verdict {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .verdict.phishing { background: #fce9e8; color: #a4282e; }
+    .verdict.legitimate { background: #e3f6ed; color: #126b4d; }
+    .score { margin: 13px 0 4px; font-size: 24px; font-weight: 800; }
+
+    .terms {
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .terms li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 7px 0;
+      border-bottom: 1px solid #edf1f5;
+      font-size: 12px;
+    }
+
+    .terms li:last-child { border: 0; }
+    .term { max-width: 225px; overflow-wrap: anywhere; }
+    .positive { color: #126b4d; }
+    .negative { color: #a4282e; }
+
+    footer {
+      padding: 0 22px 18px;
+      color: #617085;
+      font-size: 11px;
+      line-height: 1.5;
+      .mark img {
+  width: 20px;
+  height: 20px;
+}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <!-- <span class="mark" aria-hidden="true">✓</span> -->
+       <span class="mark" aria-hidden="true">
+  <img src="icons/email-check.svg" alt="">
+</span>
+      Email Detection
+    </div>
+    <p class="subtitle">Phishing email detection</p>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="analyse-title">
+      <h1 id="analyse-title">Analyse an email</h1>
+      <p class="helper">Read the currently Gmail message or paste a test email below.</p>
+
+      <div class="row">
+        <button id="read-email" class="secondary" type="button">Read email</button>
+        <button id="clear-email" class="secondary" type="button">Clear</button>
+      </div>
+
+      <label for="email-text">Email subject and body</label>
+      <textarea
+        id="email-text"
+        placeholder="Open an email in Gmail and select Read, or paste a de-identified sample here."
+      ></textarea>
+
+      <div class="row" style="margin-top: 12px;">
+        <button id="analyse-email" class="primary" type="button">Analyse email</button>
+      </div>
+
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="result" class="card" aria-labelledby="result-title" hidden>
+      <h2 id="result-title">Analysis result</h2>
+      <span id="verdict" class="verdict"></span>
+      <div id="score" class="score"></div>
+      <p class="helper">Model score for the displayed verdict—not a guarantee.</p>
+
+      <h2 style="margin: 15px 0 4px;">Why this result?</h2>
+      <p id="explanation-note" class="helper"></p>
+      <ul id="terms" class="terms"></ul>
+    </section>
+  </main>
+
+  <footer>
+    Email text is sent only when you select Analyse;
+    avoid real personal information during testing.
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

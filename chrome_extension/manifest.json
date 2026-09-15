@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Email Detector",
+  "version": "0.1.0",
+  "description": "Analyse an open Gmail email for phishing and show a model explanation.",
+  "action": {
+    "default_title": "Analyse email",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": [
+    "http://127.0.0.1:5000/*"
+  ]
+}
